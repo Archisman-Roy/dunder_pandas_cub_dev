@@ -1,4 +1,4 @@
-echo -n "Enter 1 for conda, 2 for virtualenv: "
+echo -n "Enter 1 for conda, 2 for virtualenv, 3 for vanilla package install: "
 read VAR
 
 if [[ $VAR -eq 1 ]]
@@ -24,7 +24,8 @@ then
   echo $(conda --version)
   #Set envioronment variable
   conda env create -f environment.yml 
-else
+elif [[ $VAR -eq 2 ]]
+then
   echo "Taking the virtualenv path"
   #Install if required
   pip install virtualenv
@@ -45,4 +46,8 @@ else
   pip install pytest
   #deactivate
   #deactivate
+else
+  echo "Taking the vanilla package install path"
+  pip install pandas
+  pip install pytest
 fi
