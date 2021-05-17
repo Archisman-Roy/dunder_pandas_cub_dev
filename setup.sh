@@ -12,5 +12,9 @@ echo $(du -sh /home/runner/dunderpandascubdev/miniconda3)
 export PATH="/home/runner/dunderpandascubdev/miniconda3/bin:$PATH"
 #Print Conda version
 echo $(conda --version)
+#update conda 
+conda update -n base -c defaults conda
+#Print updated Conda version
+echo $(conda --version)
 #Set envioronment variable
 conda env create -f environment.yml
