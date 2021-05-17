@@ -26,4 +26,20 @@ then
   conda env create -f environment.yml 
 else
   echo "Taking the visrtualenv path"
+  #Install if required
+  pip install virtualenv
+  #print version
+  echo $(virtualenv --version)
+  #create directory
+  mkdir /home/runner/dunderpandascubdev/python-virtual-environments 
+  cd /home/runner/dunderpandascubdev/python-virtual-environments
+  echo $(pwd)
+  #get Python3
+  python3 -m venv pandas_cub
+  #activate
+  source /home/runner/dunderpandascubdev/python-virtual-environments/pandas_cub/bin/activate
+  #install required libraries
+
+  #deactivate
+  #deactivate
 fi
