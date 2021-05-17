@@ -1,5 +1,5 @@
 #Create a folder for mini-conda
-mkdir -p /home/runner/miniconda3
+mkdir -p /home/runner/dunderpandascubdev/miniconda3
 #Download
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O /home/runner/dunderpandascubdev/miniconda3/miniconda.sh
 #Install
