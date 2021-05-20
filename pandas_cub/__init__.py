@@ -43,10 +43,19 @@ class DataFrame:
             raise ValueError('Each value must be a 1-D NumPy array')
 
     def _check_array_lengths(self, data):
-        pass
+      for i, values in enumerate(data.values()):
+        if i == 0:
+          length = len(values)
+        if length != len(values):
+          raise ValueError('All values must be the same length')
 
     def _convert_unicode_to_object(self, data):
         new_data = {}
+        for col_name, values in data.items():
+          if values.dtype.kind == 'U': #kind attribute allows us to work with simple single characters, for instance dtype returns a dtype object dtype('float64') where as dtype.kind returns a simple string value 'f'
+            new_data[col_name] = values.astype('O')
+          else:
+            new_data[col_name] = values
         return new_data
 
     def __len__(self):
@@ -57,7 +66,7 @@ class DataFrame:
         -------
         int: the number of rows in the dataframe
         """
-        pass
+        return len(next(iter(self._data.values()))) # Indexing is not supported on dict_values, hence we are using iter() to generate a iterator object, next fetches the first element in iterator, and len from numpy returns the length
 
     @property
     def columns(self):
