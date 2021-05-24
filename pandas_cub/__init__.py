@@ -68,7 +68,7 @@ class DataFrame:
         """
         return len(next(iter(self._data.values()))) # Indexing is not supported on dict_values, hence we are using iter() to generate a iterator object, next fetches the first element in iterator, and len from numpy returns the length
 
-    @property
+    @property # this is a python decorator which executes as a method and works as an attribute
     def columns(self):
         """
         _data holds column names mapped to arrays
@@ -79,7 +79,7 @@ class DataFrame:
         -------
         list of column names
         """
-        pass
+        return list(self._data) # python maintains the order of keys in a dictionary, hence we do not have to explicitly maintain the order in the code
 
     @columns.setter
     def columns(self, columns):
@@ -95,7 +95,19 @@ class DataFrame:
         -------
         None
         """
-        pass
+        if not isinstance(columns, list):
+          raise TypeError('New columns must be a list')
+        if len(columns) != len(self.columns):
+          raise ValueError(f'New column length must be {len(self._data)}')
+        else:
+          for col in columns:
+            if not isinstance(col, str):
+              raise TypeError('New column names must be strings')
+        if len(columns) != len(set(columns)):
+          raise ValueError('Column names must be unique')
+
+        new_data = dict(zip(columns, self._data.values()))
+        self._data = new_data
 
     @property
     def shape(self):
@@ -104,7 +116,7 @@ class DataFrame:
         -------
         two-item tuple of number of rows and columns
         """
-        pass
+        return len(self), len(self.columns) # len(self) is implemented above, len(self.columns) fetches the list of columns and gets the length of the returned list
 
     def _repr_html_(self):
         """
