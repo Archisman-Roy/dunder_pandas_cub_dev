@@ -159,18 +159,30 @@ class DataFrame:
         -------
         A single 2D NumPy array of the underlying data
         """
-        pass
+        return np.column_stack(self._data.values())
 
     @property
     def dtypes(self):
-        """
-        Returns
-        -------
-        A two-column DataFrame of column names in one column and
-        their data type in the other
-        """
-        DTYPE_NAME = {'O': 'string', 'i': 'int', 'f': 'float', 'b': 'bool'}
-        pass
+      """
+      Returns
+      -------
+      A two-column DataFrame of column names in one column and
+      their data type in the other
+      """
+      
+      DTYPE_NAME = {'O': 'string', 'i': 'int', 'f': 'float', 'b': 'bool'}
+      
+      col_arr = np.array(self.columns)
+
+      dtypes = []
+      
+      for values in self._data.values():
+        kind = values.dtype.kind
+        dtype = DTYPE_NAME[kind]
+        dtypes.append(dtype)
+      
+      return DataFrame({'Column Name': col_arr, 'Data Type': np.array(dtypes)})
+
 
     def __getitem__(self, item):
         """
