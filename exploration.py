@@ -29,3 +29,8 @@ data = {'name': name, 'state': state, 'height': height,
 df = pdc.DataFrame(data)
 print(df)
 print('-------------------------')
+print('Testing column selection')
+test = df[['name','state']]
+print('Test columns before column select: ', df.columns)
+print('Test columns after column select: ', test.columns)
+print('-------------------------')
