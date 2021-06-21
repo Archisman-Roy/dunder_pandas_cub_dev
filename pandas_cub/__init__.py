@@ -316,7 +316,7 @@ class DataFrame:
         -------
         DataFrame
         """
-        pass
+        return self[:n, :]
 
     def tail(self, n=5):
         """
@@ -330,7 +330,7 @@ class DataFrame:
         -------
         DataFrame
         """
-        pass
+        return self[-n:, :]
 
     #### Aggregation Methods ####
 
@@ -380,7 +380,14 @@ class DataFrame:
         -------
         A DataFrame
         """
-        pass
+        new_data = {}
+        for col, values in self._data.items():
+            try:
+                val = aggfunc(values)
+            except TypeError:
+                continue
+            new_data[col] = np.array([val])
+        return DataFrame(new_data)
 
     def isna(self):
         """
