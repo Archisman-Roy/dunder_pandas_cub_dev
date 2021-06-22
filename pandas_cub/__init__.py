@@ -397,7 +397,14 @@ class DataFrame:
         -------
         A DataFrame of booleans the same size as the calling DataFrame
         """
-        pass
+        new_data = {}
+        for col, values in self._data.items():
+            kind = values.dtype.kind
+            if kind == 'O':
+                new_data[col] = values == None
+            else:
+                new_data[col] = np.isnan(values)
+        return DataFrame(new_data)
 
     def count(self):
         """
@@ -407,7 +414,13 @@ class DataFrame:
         -------
         A DataFrame
         """
-        pass
+        new_data = {}
+        df = self.isna()
+        length = len(self)
+        for col, values in df._data.items():
+            val = length - values.sum()
+            new_data[col] = np.array([val])
+        return DataFrame(new_data)
 
     def unique(self):
         """
@@ -417,7 +430,13 @@ class DataFrame:
         -------
         A list of one-column DataFrames
         """
-        pass
+        dfs = []
+        for col, values in self._data.items():
+            uniques = np.unique(values)
+            dfs.append(DataFrame({col: uniques}))
+        if len(dfs) == 1:
+            return dfs[0]
+        return dfs
 
     def nunique(self):
         """
@@ -427,7 +446,10 @@ class DataFrame:
         -------
         A DataFrame
         """
-        pass
+        new_data = {}
+        for col, value in self._data.items():
+            new_data[col] = np.array([len(np.unique(value))])
+        return DataFrame(new_data)
 
     def value_counts(self, normalize=False):
         """
